@@ -5,6 +5,7 @@ public class Unit : MonoBehaviour {
 
     public bool isPlayer;
     public GameObject targetObject;
+    public GameObject playerObject;
 	public Transform target;
 	float speed = 20;
 	Vector3[] path;
@@ -33,9 +34,16 @@ public class Unit : MonoBehaviour {
                 target = targetObject.transform;
                 PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
             }
-
-
         }
+
+        Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
+        RaycastHit hit2;
+        if (Physics.Raycast(ray2, out hit2, 30, selectionMask.value))
+        {
+            speed = 0;
+        }
+
+        else speed = 20;
     }
 
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
