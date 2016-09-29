@@ -9,6 +9,17 @@ public class Node : IHeapItem<Node> {
 	public int gridY;
     public int movementPenalty;
 
+    /*
+     *  NYI: direction penalty array
+     *
+     *  0   1   2   NW  N   NE
+     *  
+     *  7       3   W       E
+     *  
+     *  6   5   4   SW  S   SE
+     *  
+     */
+    public int[] directionPenalty;
 	public int gCost;
 	public int hCost;
 	public Node parent;
@@ -21,6 +32,26 @@ public class Node : IHeapItem<Node> {
 		gridY = _gridY;
         movementPenalty = _penalty;
 	}
+
+    public void DirectionPenalty(char dir)
+    {
+        if (dir == 'n')
+        {
+            directionPenalty = new int[] { 0, 0, 0, 0, 10000, 10000, 10000, 0 };
+        }
+        else if (dir == 'e')
+        {
+            directionPenalty = new int[] { 100000, 0, 0, 0, 0, 0, 10000, 10000 };
+        }
+        else if (dir == 's')
+        {
+            directionPenalty = new int[] { 10000, 10000, 10000, 0, 0, 0, 0, 0 };
+        }
+        else if (dir == 'w')
+        {
+            directionPenalty = new int[] { 0, 0, 10000, 10000, 10000, 0, 0, 0 };
+        }
+    }
 
 	public int fCost {
 		get {

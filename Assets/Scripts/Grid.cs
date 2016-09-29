@@ -9,10 +9,12 @@ public class Grid : MonoBehaviour {
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
     public TerrainType[] walkableRegions;
+    public TerrainType[] roadRegions;
     LayerMask walkableMask;
     Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
+    Dictionary<int, int> roadRegionsDictionary = new Dictionary<int, int>();
 
-	Node[,] grid;
+    Node[,] grid;
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
@@ -22,13 +24,19 @@ public class Grid : MonoBehaviour {
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
 
-        foreach(TerrainType region in walkableRegions)
+        foreach (TerrainType region in walkableRegions)
         {
             walkableMask.value |= region.terrainMask.value;
-            walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value,2),region.terrainPenalty);
+            walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
         }
 
-		CreateGrid();
+        foreach (TerrainType region in roadRegions)
+        {
+            walkableMask.value |= region.terrainMask.value;
+            roadRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+        }
+
+        CreateGrid();
 	}
 
 	public int MaxSize {
