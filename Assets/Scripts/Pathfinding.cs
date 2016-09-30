@@ -45,8 +45,51 @@ public class Pathfinding : MonoBehaviour {
 					if (!neighbour.walkable || closedSet.Contains(neighbour)) {
 						continue;
 					}
-					
-					int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
+
+                    int directionOfNeighbour;
+
+                    if (neighbour.gridY > currentNode.gridY) // North
+                    {
+                        if (neighbour.gridX < currentNode.gridX) // Northwest
+                        {
+                            directionOfNeighbour = 0;
+                        }
+
+                        else if (neighbour.gridX > currentNode.gridX) // Northeast
+                        {
+                            directionOfNeighbour = 2;
+                        }
+
+                        else
+                        {
+                            directionOfNeighbour = 1;
+                        }
+                    }
+
+                    else if (neighbour.gridY < currentNode.gridY) // South
+                    {
+                        if (neighbour.gridX < currentNode.gridX) // Southwest
+                        {
+                            directionOfNeighbour = 6;
+                        }
+
+                        else if (neighbour.gridX > currentNode.gridX) // Southeast
+                        {
+                            directionOfNeighbour = 4;
+                        }
+
+                        else
+                        {
+                            directionOfNeighbour = 5;
+                        }
+                    }
+
+                    else
+                    {
+                        directionOfNeighbour = (neighbour.gridX < currentNode.gridX) ? 7 : 3;
+                    }
+
+                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty[directionOfNeighbour];
 					if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
 						neighbour.gCost = newMovementCostToNeighbour;
 						neighbour.hCost = GetDistance(neighbour, targetNode);

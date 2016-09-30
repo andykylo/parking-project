@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Node : IHeapItem<Node> {
 	
@@ -7,8 +8,8 @@ public class Node : IHeapItem<Node> {
 	public Vector3 worldPosition;
 	public int gridX;
 	public int gridY;
-    public int movementPenalty;
-
+    public int[] movementPenalty = new int[8];
+    public int direction;
     /*
      *  NYI: direction penalty array
      *
@@ -25,35 +26,31 @@ public class Node : IHeapItem<Node> {
 	public Node parent;
 	int heapIndex;
 	
-	public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int _penalty) {
+	public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int mp, int _direction) {
 		walkable = _walkable;
 		worldPosition = _worldPos;
 		gridX = _gridX;
 		gridY = _gridY;
-        movementPenalty = _penalty;
+        direction = _direction;
+        SetDirectionalPenalty(_direction, mp);
+        // movementPenalty = _mp;
 	}
 
-    public void DirectionPenalty(char dir)
+    void SetDirectionalPenalty(int dir, int mp)
     {
-        if (dir == 'n')
-        {
-            directionPenalty = new int[] { 0, 0, 0, 0, 10000, 10000, 10000, 0 };
-        }
-        else if (dir == 'e')
-        {
-            directionPenalty = new int[] { 100000, 0, 0, 0, 0, 0, 10000, 10000 };
-        }
-        else if (dir == 's')
-        {
-            directionPenalty = new int[] { 10000, 10000, 10000, 0, 0, 0, 0, 0 };
-        }
-        else if (dir == 'w')
-        {
-            directionPenalty = new int[] { 0, 0, 10000, 10000, 10000, 0, 0, 0 };
-        }
+        // 0 north, 1 east, 2 south, 3 west, 4 notroad
+
+        movementPenalty[0] = (dir == 1 || dir == 2) ? 1000 + mp : mp;
+        movementPenalty[1] = (dir == 2) ? 1000 + mp : mp;
+        movementPenalty[2] = (dir == 2 || dir == 3) ? 1000 + mp : mp;
+        movementPenalty[3] = (dir == 3) ? 1000 + mp : mp;
+        movementPenalty[4] = (dir == 0 || dir == 1) ? 1000 + mp : mp;
+        movementPenalty[5] = (dir == 0) ? 1000 + mp : mp;
+        movementPenalty[6] = (dir == 0 || dir == 1) ? 1000 + mp : mp;
+        movementPenalty[7] = (dir == 1) ? 1000 + mp : mp;
     }
 
-	public int fCost {
+    public int fCost {
 		get {
 			return gCost + hCost;
 		}

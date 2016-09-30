@@ -8,11 +8,14 @@ public class Grid : MonoBehaviour {
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
+    public int directionalPenalty;
     public TerrainType[] walkableRegions;
-    public TerrainType[] roadRegions;
+    public RoadType[] roadRegions;
     LayerMask walkableMask;
+    LayerMask roadMask;
     Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
     Dictionary<int, int> roadRegionsDictionary = new Dictionary<int, int>();
+    List<DirectionPenalty> directionalPenaltyList = new List<DirectionPenalty>();
 
     Node[,] grid;
 
@@ -30,10 +33,11 @@ public class Grid : MonoBehaviour {
             walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
         }
 
-        foreach (TerrainType region in roadRegions)
+        foreach (RoadType region in roadRegions)
         {
             walkableMask.value |= region.terrainMask.value;
-            roadRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+            roadMask.value |= region.terrainMask.value;
+            roadRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.direction);
         }
 
         CreateGrid();
@@ -55,23 +59,33 @@ public class Grid : MonoBehaviour {
 				bool walkable = !(Physics.CheckSphere(worldPoint,nodeRadius,unwalkableMask));
 
                 int movementPenalty = 0;
+                int direction = 4;
 
                 if (walkable)
                 {
                     Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
                     RaycastHit hit;
+                    
                     if (Physics.Raycast(ray, out hit, 100, walkableMask))
                     {
                         walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
+
+                    if (Physics.Raycast(ray, out hit, 100, roadMask))
+                    {
+                        roadRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out direction);
+                        Debug.Log(direction);
+                    }
+
+                    
                 }
 
-				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty);
+				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty, direction);
 			}
 		}
 	}
 
-	public List<Node> GetNeighbours(Node node) {
+    public List<Node> GetNeighbours(Node node) {
 		List<Node> neighbours = new List<Node>();
 
 		for (int x = -1; x <= 1; x++) {
@@ -118,5 +132,13 @@ public class Grid : MonoBehaviour {
     {
         public LayerMask terrainMask;
         public int terrainPenalty;
+    }
+
+    [System.Serializable]
+
+    public class RoadType
+    {
+        public LayerMask terrainMask;
+        public int direction;
     }
 }
