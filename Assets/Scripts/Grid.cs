@@ -15,7 +15,6 @@ public class Grid : MonoBehaviour {
     LayerMask roadMask;
     Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
     Dictionary<int, int> roadRegionsDictionary = new Dictionary<int, int>();
-    List<DirectionPenalty> directionalPenaltyList = new List<DirectionPenalty>();
 
     Node[,] grid;
 
@@ -74,7 +73,6 @@ public class Grid : MonoBehaviour {
                     if (Physics.Raycast(ray, out hit, 100, roadMask))
                     {
                         roadRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out direction);
-                        Debug.Log(direction);
                     }
 
                     
