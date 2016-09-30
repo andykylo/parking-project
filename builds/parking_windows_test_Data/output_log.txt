@@ -1,0 +1,68 @@
+Initialize engine version: 5.3.5f1 (960ebf59018a)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [aticfx64.dll 8.17.10.1404]
+    Renderer: AMD Radeon HD 5800 Series
+    Vendor:   ATI
+    VRAM:     2020 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 INTZ=1 NULL=1 RESZ=1 SlowINTZ=1
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.122 seconds
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\develop\unity\Parking Survey Project\parking_windows_test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.033355 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 27c0 -> priority: 1 
+  Thread -> id: 4a4c -> priority: 1 
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Pressed left click.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
