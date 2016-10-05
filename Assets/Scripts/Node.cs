@@ -40,14 +40,14 @@ public class Node : IHeapItem<Node> {
     {
         // 0 north, 1 east, 2 south, 3 west, 4 notroad
 
-        movementPenalty[0] = (dir == 1 || dir == 2) ? 10000 + mp : mp;
-        movementPenalty[1] = (dir == 2) ? 10000 + mp : mp;
-        movementPenalty[2] = (dir == 2 || dir == 3) ? 10000 + mp : mp;
-        movementPenalty[3] = (dir == 3) ? 10000 + mp : mp;
-        movementPenalty[4] = (dir == 0 || dir == 1) ? 10000 + mp : mp;
-        movementPenalty[5] = (dir == 0) ? 10000 + mp : mp;
-        movementPenalty[6] = (dir == 0 || dir == 1) ? 1000 + mp : mp;
-        movementPenalty[7] = (dir == 1) ? 10000 + mp : mp;
+        movementPenalty[0] = (dir == 1 || dir == 2) ? 100000 + mp : mp;
+        movementPenalty[1] = (dir == 2) ? 100000 + mp : mp;
+        movementPenalty[2] = (dir == 2 || dir == 3) ? 100000 + mp : mp;
+        movementPenalty[3] = (dir == 3) ? 100000 + mp : mp;
+        movementPenalty[4] = (dir == 0 || dir == 3) ? 100000 + mp : mp;
+        movementPenalty[5] = (dir == 0) ? 100000 + mp : mp;
+        movementPenalty[6] = (dir == 0 || dir == 1) ? 100000 + mp : mp;
+        movementPenalty[7] = (dir == 1) ? 100000 + mp : mp;
     }
 
     public int fCost {
