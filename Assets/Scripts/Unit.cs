@@ -11,6 +11,7 @@ public class Unit : MonoBehaviour {
 	Vector3[] path;
 	int targetIndex;
     public LayerMask selectionMask;
+    public LayerMask buildingMask;
 
 	void Start() {
         if (!isPlayer)
@@ -22,23 +23,25 @@ public class Unit : MonoBehaviour {
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) && isPlayer)
+        if (isPlayer)
         {
-            Debug.Log("Pressed left click.");
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButtonDown(0) && isPlayer)
             {
-                targetObject.transform.position = hit.point;
-                target = targetObject.transform;
-                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    targetObject.transform.position = hit.point;
+                    target = targetObject.transform;
+                    PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                }
             }
         }
 
         Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
         RaycastHit hit2;
-        if (Physics.Raycast(ray2, out hit2, 20, selectionMask.value))
+        if (Physics.Raycast(ray2, out hit2, 10, selectionMask.value))
         {
             speed = 0;
         }
@@ -61,7 +64,15 @@ public class Unit : MonoBehaviour {
 			if (transform.position == currentWaypoint) {
 				targetIndex ++;
 				if (targetIndex >= path.Length) {
-					yield break;
+                    Debug.Log("End of Path found");
+                    if (!isPlayer)
+                    {
+                        targetObject.transform.position = RandomTargetLocation();
+                        target = targetObject.transform;
+                        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                        targetIndex = 0;
+                    }
+					else yield break;
 				}
 				currentWaypoint = path[targetIndex];
 			}
@@ -71,6 +82,23 @@ public class Unit : MonoBehaviour {
 
 		}
 	}
+
+    Vector3 RandomTargetLocation()
+    {
+        Vector3 location = new Vector3(Random.Range(-120f, 120f), 0, Random.Range(-120f, 120f));
+        // bool isBuilding = true;
+        Ray ray = new Ray(location + Vector3.up * 50, Vector3.down);
+        RaycastHit hit;
+
+        while (Physics.Raycast(ray, out hit, 10000f, buildingMask))
+        {
+            Debug.Log("Building");
+            location = new Vector3(Random.Range(-120f, 120f), 0, Random.Range(-120f, 120f));
+            ray = new Ray(location + Vector3.up * 50, Vector3.down);
+        }
+
+        return location;
+    }
 
 	public void OnDrawGizmos() {
 		if (path != null) {
