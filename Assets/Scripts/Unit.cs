@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour {
 	float speed = 20;
 	Vector3[] path;
 	int targetIndex;
+    bool isNPCIdle = false;
     public LayerMask selectionMask;
     public LayerMask buildingMask;
 
@@ -38,10 +39,25 @@ public class Unit : MonoBehaviour {
                 }
             }
         }
+        else
+        {
+            if (isNPCIdle)
+            {
+                Debug.Log(isNPCIdle);
+                targetObject.transform.position = RandomTargetLocation();
+                //target = targetObject.transform;
+                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                isNPCIdle = false;
+                targetIndex = 0;
+                Debug.Log(playerObject.transform.position);
+                Debug.Log(target.position);
+            }
+            
+        }
 
         Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
         RaycastHit hit2;
-        if (Physics.Raycast(ray2, out hit2, 10, selectionMask.value))
+        if (Physics.Raycast(ray2, out hit2, 5, selectionMask.value))
         {
             speed = 0;
         }
@@ -62,22 +78,20 @@ public class Unit : MonoBehaviour {
 		Vector3 currentWaypoint = path[0];
 		while (true) {
 			if (transform.position == currentWaypoint) {
-				targetIndex ++;
+                
+
+                targetIndex++;
 				if (targetIndex >= path.Length) {
+                    Debug.Log(playerObject.transform.position);
                     Debug.Log("End of Path found");
-                    if (!isPlayer)
-                    {
-                        targetObject.transform.position = RandomTargetLocation();
-                        target = targetObject.transform;
-                        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
-                        targetIndex = 0;
-                    }
-					else yield break;
+                    if (!isPlayer) isNPCIdle = true;
+					yield break;
 				}
 				currentWaypoint = path[targetIndex];
 			}
 
 			transform.position = Vector3.MoveTowards(transform.position,currentWaypoint,speed * Time.deltaTime);
+
 			yield return null;
 
 		}
@@ -97,7 +111,43 @@ public class Unit : MonoBehaviour {
             ray = new Ray(location + Vector3.up * 50, Vector3.down);
         }
 
+        location = ShiftAwayFromBuildings(location);
+
         return location;
+    }
+
+    Vector3 ShiftAwayFromBuildings(Vector3 v)
+    {
+        Ray ray = new Ray(v, Vector3.right);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        {
+            return (v + Vector3.left);
+        }
+
+        ray = new Ray(v, Vector3.left);
+
+        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        {
+            return (v + Vector3.right);
+        }
+
+        ray = new Ray(v, Vector3.forward);
+
+        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        {
+            return (v + Vector3.back);
+        }
+
+        ray = new Ray(v, Vector3.back);
+
+        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        {
+            return (v + Vector3.forward);
+        }
+
+        return v;
     }
 
 	public void OnDrawGizmos() {
