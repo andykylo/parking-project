@@ -11,14 +11,27 @@ public class Unit : MonoBehaviour {
 	Vector3[] path;
 	int targetIndex;
     bool isNPCIdle = false;
+    bool isVerticalGreen = false; // false: green for horizontal | true: green for vertical
     public LayerMask selectionMask;
     public LayerMask buildingMask;
+    public LayerMask horizontalStopMask;
+    public LayerMask verticalStopMask;
 
 	void Start() {
         if (!isPlayer)
         {
             PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
         }
+
+        InvokeRepeating("ToggleRepeat", 0, 5);
+    }
+
+    void ToggleRepeat()
+    {
+        isVerticalGreen = (isVerticalGreen == true) ? false : true;
+
+        Debug.Log(isVerticalGreen);
+
     }
 
     void Update()
@@ -39,6 +52,7 @@ public class Unit : MonoBehaviour {
                 }
             }
         }
+
         else
         {
             if (isNPCIdle)
@@ -57,12 +71,24 @@ public class Unit : MonoBehaviour {
 
         Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
         RaycastHit hit2;
+
         if (Physics.Raycast(ray2, out hit2, 5, selectionMask.value))
         {
             speed = 0;
         }
 
-        else speed = 20;
+        else
+        {
+            ray2 = new Ray(playerObject.transform.position + Vector3.up * 25, Vector3.down);
+
+            if ((Physics.Raycast(ray2, out hit2, 30, verticalStopMask.value) && isVerticalGreen) ||
+                (Physics.Raycast(ray2, out hit2, 30, horizontalStopMask.value) && !isVerticalGreen))
+            {
+                speed = 0;
+            }
+
+            else speed = 20;
+        }
     }
 
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
