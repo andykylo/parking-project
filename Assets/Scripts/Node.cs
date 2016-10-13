@@ -26,28 +26,28 @@ public class Node : IHeapItem<Node> {
 	public Node parent;
 	int heapIndex;
 	
-	public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int mp, int _direction) {
+	public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int mp, int _direction, int _dirPen) {
 		walkable = _walkable;
 		worldPosition = _worldPos;
 		gridX = _gridX;
 		gridY = _gridY;
         direction = _direction;
-        SetDirectionalPenalty(_direction, mp);
+        SetDirectionalPenalty(_direction, mp, _dirPen);
         // movementPenalty = _mp;
 	}
 
-    void SetDirectionalPenalty(int dir, int mp)
+    void SetDirectionalPenalty(int dir, int mp, int dirPen)
     {
         // 0 north, 1 east, 2 south, 3 west, 4 notroad
 
-        movementPenalty[0] = (dir == 1 || dir == 2) ? 100000 + mp : mp;
-        movementPenalty[1] = (dir == 2) ? 100000 + mp : mp;
-        movementPenalty[2] = (dir == 2 || dir == 3) ? 100000 + mp : mp;
-        movementPenalty[3] = (dir == 3) ? 100000 + mp : mp;
-        movementPenalty[4] = (dir == 0 || dir == 3) ? 100000 + mp : mp;
-        movementPenalty[5] = (dir == 0) ? 100000 + mp : mp;
-        movementPenalty[6] = (dir == 0 || dir == 1) ? 100000 + mp : mp;
-        movementPenalty[7] = (dir == 1) ? 100000 + mp : mp;
+        movementPenalty[0] = (dir == 1 || dir == 2) ? dirPen + mp : mp;
+        movementPenalty[1] = (dir == 2) ? dirPen + mp : mp;
+        movementPenalty[2] = (dir == 2 || dir == 3) ? dirPen + mp : mp;
+        movementPenalty[3] = (dir == 3) ? dirPen + mp : mp;
+        movementPenalty[4] = (dir == 0 || dir == 3) ? dirPen + mp : mp;
+        movementPenalty[5] = (dir == 0) ? dirPen + mp : mp;
+        movementPenalty[6] = (dir == 0 || dir == 1) ? dirPen + mp : mp;
+        movementPenalty[7] = (dir == 1) ? dirPen + mp : mp;
     }
 
     public int fCost {

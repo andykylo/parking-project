@@ -78,7 +78,7 @@ public class Grid : MonoBehaviour {
                     
                 }
 
-				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty, direction);
+				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty, direction, directionalPenalty);
 			}
 		}
 	}
