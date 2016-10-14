@@ -7,8 +7,9 @@ public class Unit : MonoBehaviour {
     public GameObject targetObject;
     public GameObject playerObject;
 	public Transform target;
-	float speed = 20;
-	Vector3[] path;
+    public float initialSpeed;
+    float speed;
+    Vector3[] path;
 	int targetIndex;
     bool isNPCIdle = false;
     bool isVerticalGreen = false; // false: green for horizontal | true: green for vertical
@@ -18,6 +19,9 @@ public class Unit : MonoBehaviour {
     public LayerMask verticalStopMask;
 
 	void Start() {
+
+        speed = initialSpeed;
+
         if (!isPlayer)
         {
             PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
@@ -87,7 +91,7 @@ public class Unit : MonoBehaviour {
                 speed = 0;
             }
 
-            else speed = 20;
+            else speed = initialSpeed;
         }
     }
 
