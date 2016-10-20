@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.IO;
 
 public class Grid : MonoBehaviour {
 
@@ -11,6 +13,8 @@ public class Grid : MonoBehaviour {
     public int directionalPenalty;
     public TerrainType[] walkableRegions;
     public RoadType[] roadRegions;
+    string gridOutputFile = "tiles.csv";
+    StringBuilder sb;
     LayerMask walkableMask;
     LayerMask roadMask;
     Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
@@ -51,6 +55,7 @@ public class Grid : MonoBehaviour {
 	void CreateGrid() {
 		grid = new Node[gridSizeX,gridSizeY];
 		Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y/2;
+        sb = new StringBuilder();
 
 		for (int x = 0; x < gridSizeX; x ++) {
 			for (int y = 0; y < gridSizeY; y ++) {
@@ -78,10 +83,13 @@ public class Grid : MonoBehaviour {
                     
                 }
 
-				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty, direction, directionalPenalty);
+				grid[x,y] = new Node(walkable, worldPoint, x, y, movementPenalty, direction, directionalPenalty);
+                sb.AppendLine(grid[x, y].toString());
 			}
 		}
-	}
+
+        File.WriteAllText(gridOutputFile, sb.ToString());
+    }
 
     public List<Node> GetNeighbours(Node node) {
 		List<Node> neighbours = new List<Node>();

@@ -72,4 +72,9 @@ public class Node : IHeapItem<Node> {
 		}
 		return -compare;
 	}
+
+    public string toString()
+    {
+        return (gridX + ", " + gridY + ", " + walkable + ", " + direction);
+    }
 }

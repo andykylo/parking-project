@@ -76,7 +76,7 @@ public class Unit : MonoBehaviour {
         Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
         RaycastHit hit2;
 
-        if (Physics.Raycast(ray2, out hit2, 5, selectionMask.value))
+        if (Physics.Raycast(ray2, out hit2, 3, selectionMask.value))
         {
             speed = 0;
         }
