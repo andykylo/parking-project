@@ -24,7 +24,13 @@ public class Unit : MonoBehaviour {
 
         if (!isPlayer)
         {
+            speed = Random.Range(50, 100);
+            initialSpeed = speed;
+
+            playerObject.transform.position = RandomTargetLocation();
+            targetObject.transform.position = RandomTargetLocation();
             PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+            
         }
 
         InvokeRepeating("ToggleRepeat", 0, 5);
@@ -76,7 +82,7 @@ public class Unit : MonoBehaviour {
         Ray ray2 = new Ray(playerObject.transform.position, playerObject.transform.forward);
         RaycastHit hit2;
 
-        if (Physics.Raycast(ray2, out hit2, 3, selectionMask.value))
+        if (Physics.Raycast(ray2, out hit2, 2.5f, selectionMask.value))
         {
             speed = 0;
         }
@@ -129,7 +135,7 @@ public class Unit : MonoBehaviour {
 
     Vector3 RandomTargetLocation()
     {
-        Vector3 location = new Vector3(Random.Range(-118f, 118f), 0, Random.Range(-118f, 118f));
+        Vector3 location = new Vector3(Random.Range(-116f, 116f), 0, Random.Range(-116f, 116f));
         // bool isBuilding = true;
         Ray ray = new Ray(location + Vector3.up * 50, Vector3.down);
         RaycastHit hit;
@@ -137,7 +143,7 @@ public class Unit : MonoBehaviour {
         while (Physics.Raycast(ray, out hit, 10000f, buildingMask))
         {
             Debug.Log("Building");
-            location = new Vector3(Random.Range(-118f, 118f), 0, Random.Range(-118f, 118f));
+            location = new Vector3(Random.Range(-116f, 116f), 0, Random.Range(-116f, 116f));
             ray = new Ray(location + Vector3.up * 50, Vector3.down);
         }
 
@@ -151,30 +157,30 @@ public class Unit : MonoBehaviour {
         Ray ray = new Ray(v, Vector3.right);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        if (Physics.Raycast(ray, out hit, 4f, buildingMask))
         {
-            return (v + Vector3.left);
+            return (v + Vector3.left * 2);
         }
 
         ray = new Ray(v, Vector3.left);
 
-        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        if (Physics.Raycast(ray, out hit, 4f, buildingMask))
         {
-            return (v + Vector3.right);
+            return (v + Vector3.right * 2);
         }
 
         ray = new Ray(v, Vector3.forward);
 
-        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        if (Physics.Raycast(ray, out hit, 4f, buildingMask))
         {
-            return (v + Vector3.back);
+            return (v + Vector3.back * 2);
         }
 
         ray = new Ray(v, Vector3.back);
 
-        if (Physics.Raycast(ray, out hit, 2f, buildingMask))
+        if (Physics.Raycast(ray, out hit, 4f, buildingMask))
         {
-            return (v + Vector3.forward);
+            return (v + Vector3.forward * 2);
         }
 
         return v;

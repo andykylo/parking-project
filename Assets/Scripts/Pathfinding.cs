@@ -7,10 +7,17 @@ public class Pathfinding : MonoBehaviour {
 	
 	PathRequestManager requestManager;
 	Grid grid;
+    public bool fixedSeed;
+    public int fixedSeedValue;
+    
 	
 	void Awake() {
 		requestManager = GetComponent<PathRequestManager>();
 		grid = GetComponent<Grid>();
+        if (fixedSeed)
+        {
+            UnityEngine.Random.seed = fixedSeedValue;
+        }
 	}
 	
 	
