@@ -13,6 +13,13 @@ public class Grid : MonoBehaviour {
     public int directionalPenalty;
     public TerrainType[] walkableRegions;
     public RoadType[] roadRegions;
+
+    public int blocksX;
+    public int blocksY;
+    public int npcCount;
+
+    public GameObject playerObject, npcObject, targetObject;
+
     string gridOutputFile = "tiles.csv";
     StringBuilder sb;
     LayerMask walkableMask;
@@ -44,6 +51,14 @@ public class Grid : MonoBehaviour {
         }
 
         CreateGrid();
+
+        GameObject temp;
+
+        for (int i = 0; i < npcCount; i++)
+        {
+            temp = Instantiate(npcObject);
+            temp.name = "NPC " + i.ToString();
+        }
 	}
 
 	public int MaxSize {

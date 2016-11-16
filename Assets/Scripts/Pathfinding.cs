@@ -55,7 +55,7 @@ public class Pathfinding : MonoBehaviour {
 
                     int directionOfNeighbour;
 
-                    if (neighbour.gridY > currentNode.gridY) // North
+                    if (neighbour.gridY > currentNode.gridY) // North + ?
                     {
                         if (neighbour.gridX < currentNode.gridX) // Northwest
                         {
@@ -69,11 +69,11 @@ public class Pathfinding : MonoBehaviour {
 
                         else
                         {
-                            directionOfNeighbour = 1;
+                            directionOfNeighbour = 1; // North
                         }
                     }
 
-                    else if (neighbour.gridY < currentNode.gridY) // South
+                    else if (neighbour.gridY < currentNode.gridY) // South + ?
                     {
                         if (neighbour.gridX < currentNode.gridX) // Southwest
                         {
@@ -87,13 +87,13 @@ public class Pathfinding : MonoBehaviour {
 
                         else
                         {
-                            directionOfNeighbour = 5;
+                            directionOfNeighbour = 5; // South
                         }
                     }
 
                     else
                     {
-                        directionOfNeighbour = (neighbour.gridX < currentNode.gridX) ? 7 : 3;
+                        directionOfNeighbour = (neighbour.gridX < currentNode.gridX) ? 7 : 3; // East, West
                     }
 
                     int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty[directionOfNeighbour];
